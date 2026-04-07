@@ -1,0 +1,34 @@
+[root@hidden1 ~]# vi configs/my_backup.service
+[Unit]
+Description=Avtomatik Backup Servisi
+After=network.target
+
+[Service]
+Type=oneshot
+ExecStart=/bin/bash /root/scripts/backup.sh
+StandardOutput=append:/var/log/backup.log
+StandardError=append:/var/log/backup_error.log
+User=root
+
+[Install]
+WantedBy=multi-user.target
+~
+~
+
+[root@hidden ~]# cp configs/my_backup.service /etc/systemd/system/my_backup.service
+[root@Bhidden ~]# systemctl daemon-reload
+[root@hidden ~]# systemctl enable my_backup.service
+Created symlink /etc/systemd/system/multi-user.target.wants/my_backup.service → /etc/systemd/system/my_backup.service.
+[root@hidden ~]# systemctl start my_backup.service
+
+[root@BKSRINZTAPPVP01 ~]# systemctl status my_backup.service
+○ my_backup.service - Avtomatik Backup Servisi
+     Loaded: loaded (/etc/systemd/system/my_backup.service; enabled; preset: disabled)
+     Active: inactive (dead) since Tue 2026-04-07 11:50:23 +04; 1min 39s ago
+    Process: 1923765 ExecStart=/bin/bash /root/scripts/backup.sh (code=exited, status=0/SUCCESS)
+   Main PID: 1923765 (code=exited, status=0/SUCCESS)
+        CPU: 11ms
+
+Apr 07 11:50:23 BKSRINZTAPPVP01 systemd[1]: Starting Avtomatik Backup Servisi...
+Apr 07 11:50:23 BKSRINZTAPPVP01 systemd[1]: my_backup.service: Deactivated successfully.
+Apr 07 11:50:23 BKSRINZTAPPVP01 systemd[1]: Finished Avtomatik Backup Servisi.
