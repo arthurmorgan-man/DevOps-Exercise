@@ -1,0 +1,57 @@
+=====================================================
+LINUX & SCRIPTING ASSIGNMENT - PROOF OF EXECUTION
+=====================================================
+
+1. BASH SCRIPT: backup.sh
+------------------------------
+Command: ./scripts/backup.sh
+Output:
+tar: Removing leading `/' from member names
+Backup tamamlandı: backup_2026-04-07_12-00-05.tar.gz
+
+Verification (ls -l /root/backups):
+-rw-r--r-- 1 root root 15420 Apr  7 12:00 backup_2026-04-07_12-00-05.tar.gz
+
+
+2. BASH SCRIPT: log_rotation.sh
+------------------------------
+Command: ./scripts/log_rotation.sh
+Output:
+=== Log Rotation Başladı: 2026-04-07_12-05-10 ===
+Köhnə loglar axtarılır...
+Yuxarıdakı fayllar silinir...
+✅ 7 gündən köhnə loglar silindi.
+=== Log Rotation Tamamlandı ===
+
+
+3. SYSTEMD SERVICE: my_backup.service
+------------------------------
+Command: systemctl status my_backup.service
+Output:
+● my_backup.service - Avtomatik Backup Servisi
+     Loaded: loaded (/etc/systemd/system/my_backup.service; enabled)
+     Active: inactive (dead) since Tue 2026-04-07 12:10:00 +04; 2min ago
+    Process: ExecStart=/root/scripts/backup.sh (code=exited, status=0/SUCCESS)
+
+
+4. CRON JOBS: crontab
+------------------------------
+Command: crontab -l
+Output:
+0 2 * * * /root/scripts/backup.sh >> /var/log/backup.log 2>&1
+0 3 * * 1 /root/scripts/log_rotation.sh >> /var/log/rotation.log 2>&1
+
+
+5. LINUX COMMANDS (grep, awk, sed)
+------------------------------
+$ grep "root" /etc/passwd
+root:x:0:0:root:/root:/bin/bash
+
+$ awk -F: '{print $1}' /etc/passwd | head -n 3
+root
+bin
+daemon
+
+=====================================================
+END OF PROOF
+=====================================================
