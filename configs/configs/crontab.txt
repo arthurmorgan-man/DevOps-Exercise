@@ -1,0 +1,18 @@
+[root@hidden ~]# mkdir -p configs
+[root@hidden ~]# vi configs/crontab.txt
+# ============================================
+# Cron Job Nümunələri
+# ============================================
+
+# Hər gün saat 02:00-da backup skriptini işə sal
+0 2 * * * /root/scripts/backup.sh >> /var/log/backup.log 2>&1
+
+# Hər bazar ertəsi saat 03:00-da log rotation işə sal
+0 3 * * 1 /root/scripts/log_rotation.sh >> /var/log/rotation.log 2>&1
+
+# Hər 5 dəqiqədən bir serverin vəziyyətini yoxla
+*/5 * * * * echo "Server işləyir: $(date)" >> /var/log/server_status.log
+[root@hidden ~]# crontab -l
+0 2 * * * /root/scripts/backup.sh >> /var/log/backup.log 2>&1
+0 3 * * 1 /root/scripts/log_rotation.sh >> /var/log/rotation.log 2>&1
+*/5 * * * * echo "Server işləyir: $(date)" >> /var/log/server_status.log
